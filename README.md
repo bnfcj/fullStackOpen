@@ -1,1 +1,1 @@
-part 0 of fullstackopen course
+fullstackopen course solutions
