@@ -12,17 +12,47 @@ function App() {
     "The only way to go fast, is to go well.",
   ];
 
-  const [selected, setSelected] = useState(0);
-  function fetchRandomNumber(array) {
-    setSelected(Math.floor(Math.random() * array.length));
-  }
+  const [selected, setSelected] = useState(
+    Math.floor(Math.random() * anecdotes.length)
+  );
+  const [votes, setVotes] = useState(anecdotes.map(() => 0));
 
   return (
     <>
+      <h2>Anecdote of the day</h2>
       <div>{anecdotes[selected]}</div>
-      <button onClick={fetchRandomNumber.bind(null, anecdotes)}>
+      <p>has {votes[selected]} votes</p>
+      <button
+        onClick={() => {
+          const num = Math.floor(Math.random() * anecdotes.length);
+          setSelected(num);
+        }}
+      >
         next anecdote
       </button>
+      <button
+        onClick={() => {
+          setVotes(
+            votes.map((vote, index) => {
+              if (index === selected) return vote + 1;
+              else return vote;
+            })
+          );
+        }}
+      >
+        vote
+      </button>
+      <h2>Anecdote with most votes</h2>
+      <div>
+        {
+          anecdotes[
+            votes.reduce((acc, curr, currIndex) => {
+              if (curr > votes[acc]) return currIndex;
+              else return acc;
+            }, 0)
+          ]
+        }
+      </div>
     </>
   );
 }
